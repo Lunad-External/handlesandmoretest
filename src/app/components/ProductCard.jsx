@@ -10,7 +10,7 @@ const ProductCard = ({products,title="",bannerimage}) => {
     className="object-contain " />
     <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 shadow-inner border rounded-sm p-2 gap-4">
       {products && products?.length > 0 &&  products?.map((product) => (
-        <Link
+        <a
         href={product?.completeurl || "#"} 
           key={product.id}
           className="flex flex-col gap-2 p-4 justify-center items-center border rounded-lg shadow-md h-full cursor-pointer"
@@ -18,7 +18,7 @@ const ProductCard = ({products,title="",bannerimage}) => {
           <div className="w-32 h-32 relative">
             <Image
               src={`${process.env.NEXT_PUBLIC_API_URL}${product?.image?.url}` || null}
-              alt={product?.image?.title}
+              alt={product?.image?.alt}
               layout="fill"
               objectFit="contain"
             />
@@ -27,7 +27,7 @@ const ProductCard = ({products,title="",bannerimage}) => {
             {product?.title}
           </h2>
           <p className="text-xs text-center">{product?.code}</p>
-        </Link>
+        </a>
       ))}
     </div>
   </div>

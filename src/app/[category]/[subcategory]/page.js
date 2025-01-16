@@ -1,7 +1,7 @@
 import CategoryPage from "@/app/components/CategoryPage";
 import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
-import { getNavLinkMenu, getsubCategory, getSubCategoryProductdata } from "@/app/service/apiService";
+import { getNavLinkMenu, getsubCategory, getSubCategoryProductdata, otherCategoriesData } from "@/app/service/apiService";
 
 export default async function Page({ params }) {
   try {
@@ -18,7 +18,7 @@ export default async function Page({ params }) {
     }
 
     // Run API calls concurrently using Promise.all
-    let [navItems, subcategorData, productData] = await Promise.all([
+    let [navItems, subcategorData, productData, otherCategories] = await Promise.all([
       getNavLinkMenu().catch((error) => {
         console.error("Failed to fetch navigation items:", error);
         return null; // Return null on failure
@@ -31,6 +31,10 @@ export default async function Page({ params }) {
         console.error("Failed to fetch product data:", error);
         return null; // Return null on failure
       }),
+      otherCategoriesData(subcategory).catch((error) => {
+        console.error("Failed to fetch product data:", error);
+        return null; // Return null on failure
+      })
     ]);
 
     // Validate API responses
@@ -46,10 +50,14 @@ export default async function Page({ params }) {
       // return <div>Error: Failed to load product data.</div>;
       productData = [];
     }
+    if(!otherCategories){
+      otherCategories = [];
+    }
 
     // Extract subcategory details
     const { Finishes, brand,title } = subcategorData?.Category || {};
     const { bannerimage } = subcategorData || {};
+
 
     return (
       <div>
@@ -57,6 +65,7 @@ export default async function Page({ params }) {
         <CategoryPage
           productData={productData}
           subcategoryDetails={{ Finishes, brand, bannerimage,title }}
+          otherCategories={otherCategories}
         />
         <Footer />
       </div>

@@ -3,7 +3,7 @@ import React from "react";
 import { ScrollableSection } from "./ScrollableSection";
 import ProductCard from "./ProductCard";
 
-const CategoryPage = ({productData = [],subcategoryDetails}) => {
+const CategoryPage = ({productData = [],subcategoryDetails, otherCategories = []}) => {
     
   return (
     <section className="max-w-6xl mx-auto p-4 flex  gap-20 ">
@@ -36,12 +36,12 @@ const CategoryPage = ({productData = [],subcategoryDetails}) => {
           </h1>
           <div className="border-b-2 border-gray-300 w-full" />
           <ScrollableSection>
-            {subcategoryDetails?.brand && subcategoryDetails?.brand?.length > 0 && subcategoryDetails?.brand?.map((brand) => (
+            {subcategoryDetails?.brand && subcategoryDetails?.brand?.length > 0 && subcategoryDetails?.brand?.map((brand,index) => (
               <div key={brand?.id} className="flex items-center gap-4">
                 <div className="border-2 border-grey-300 p-0.5 flex items-center justify-center">
                   <Image
                     src={`${process.env.NEXT_PUBLIC_API_URL}${brand?.image?.url}` || null}
-                    alt={brand?.title || ""}
+                    alt={brand?.title || `Brand ${index}`}
                     width={40}
                     height={40}
                   />
@@ -58,9 +58,17 @@ const CategoryPage = ({productData = [],subcategoryDetails}) => {
             Other Categories
           </h1>
           <div className="border-b-2 border-gray-300 w-full" />
-          <div className="flex flex-col gap-y-2 pl-2">
-            <h2>Pull Handles</h2>
-            <h2>Furniture Handles</h2>
+          <div className="flex flex-col gap-y-2 pl-2 text-teal-400">
+            {
+              otherCategories && otherCategories?.length > 0 && otherCategories?.map((category) => (
+                <a key={category?.id}
+                href={category?.fullslug || "#"}
+                className="hover:underline"
+                >{category?.title}</a>
+              ))
+            }
+            {/* <h2>Pull Handles</h2>
+            <h2>Furniture Handles</h2> */}
           </div>
         </div>
       </div>
@@ -70,5 +78,4 @@ const CategoryPage = ({productData = [],subcategoryDetails}) => {
 };
 
 export default CategoryPage;
-
 

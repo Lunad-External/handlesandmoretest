@@ -14,7 +14,7 @@ export const getNavLinkMenu = async () => {
     
     if (!response.ok) {
       const errorText = await response.text();
-      console.error('API Error Response:', errorText);
+      console.log('API Error Response:', errorText);
       // throw new Error(`HTTP error! status: ${response.status}`);
       return [];
     }
@@ -112,7 +112,7 @@ export const getSubCategoryProductdata = async (subcategory) => {
 export const getProductData = async (product) => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/Products?depth=1&draft=false&locale=undefined&where[producturl][equals]=${product}&sort=title`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/Products?depth=2&draft=false&locale=undefined&where[producturl][equals]=${product}&sort=title`,
       {
         method: "GET",
         headers: {
@@ -198,6 +198,66 @@ export const getBrandsData = async () => {
     return data?.docs;  
   } catch (error) {
     console.error("getBrandsData error:", error);
+    // throw error;
+  }
+}
+
+export const getCatalogueData = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/catalogue`,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // "Authorization":"",
+        },
+        cache: "no-cache",
+        
+      }
+    );
+
+    if (!response.ok) {
+      console.error("response is not ok",response)
+      return [];
+    }
+
+    // Try to parse the response and log it if there's an error
+    const data = await response.json();
+    return data?.docs;
+  } catch (error) {
+    console.error("getCatalogueData error:", error);
+    // throw error;
+  }
+}
+
+export const otherCategoriesData = async (subcategory) => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/subcategory/?select[title]=true&select[subcategoryslug]=true&select[fullslug]=true&select[categoryslug]=true&where[subcategoryslug][not_equals]=${subcategory}&depth=2&draft=false&locale=undefined `,
+      {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          // "Authorization":"",
+        },
+        cache: "no-cache",
+        
+      }
+    );
+
+    if (!response.ok) {
+      return [];
+      // const errorText = await response.text();
+      // console.error('API Error Response:', errorText);
+      // throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    // Try to parse the response and log it if there's an error 
+    const data = await response.json();
+    return data?.docs;
+  } catch (error) {
+    console.error("otherCategoriesData error:", error);
     // throw error;
   }
 }

@@ -134,10 +134,15 @@ export default function ProductPage({ productData }) {
           {isTechDocsOpen && (
             <div className="bg-gray-200 p-6 rounded-md shadow-sm w-full transition-all duration-300">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                {productData.technicalDocs.map((doc, index) => (
+                {productData?.technicalDocs && productData?.technicalDocs?.map((doc, index) => (
                   <div key={index}>
-                    <h3 className="text-md font-bold text-black mb-2">{doc.title}</h3>
-                    <p className="text-sm text-gray-700">{doc.content}</p>
+                    <h3 className="text-md font-bold text-black mb-2">{doc?.title}</h3>
+                    <a
+                    href={`${process.env.NEXT_PUBLIC_API_URL}${doc?.pdfLink?.url}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    
+                     className="text-sm text-teal-600 hover:underline">{doc?.content}</a>
                   </div>
                 ))}
               </div>
@@ -162,18 +167,18 @@ export default function ProductPage({ productData }) {
           </h2>
           {isCompleteCollection && (
             <ul className="flex p-2 gap-4 w-full">
-              {productData?.completeCollectionData.map((item, index) => (
+              {productData?.completeCollectionData && productData?.completeCollectionData?.map((item, index) => (
                 <a
                   key={index}
                   href="#"
                   className="opacity-40 cursor-pointer hover:opacity-100 transition-all duration-300"
                 >
                   <img
-                    src={item.image || null}
-                    alt={item.title}
-                    className="w-20 h-20 object-cover border border-black p-2"
+                    src={`${process.env.NEXT_PUBLIC_API_URL}${item?.image?.url}` || null}
+                    alt={item?.image?.alt || `Image ${index + 1}`}
+                    className="w-20 h-20 object-contain border border-black p-2"
                   />
-                  <p className="text-sm font-sans text-center font-semibold">{item.itemCode}</p>
+                  <p className="text-sm font-sans text-center font-semibold">{item?.itemCode}</p>
                 </a>
               ))}
             </ul>
