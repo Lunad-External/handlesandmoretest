@@ -11,10 +11,10 @@ export const getNavLinkMenu = async () => {
         cache: "no-cache",
       }
     );
-    
+
     if (!response.ok) {
       const errorText = await response.text();
-      console.log('API Error Response:', errorText);
+      console.log("API Error Response:", errorText);
       // throw new Error(`HTTP error! status: ${response.status}`);
       return [];
     }
@@ -25,25 +25,25 @@ export const getNavLinkMenu = async () => {
       const text = await response.text();
       data = JSON.parse(text);
     } catch (parseError) {
-      console.error('JSON Parse Error:', parseError);
-      throw new Error('Invalid JSON response from server');
+      console.error("JSON Parse Error:", parseError);
+      throw new Error("Invalid JSON response from server");
     }
 
     if (!data || !Array.isArray(data) || data.length === 0) {
-      console.error('Invalid data structure:', data);
-      throw new Error('Invalid data structure received from server');
+      console.error("Invalid data structure:", data);
+      throw new Error("Invalid data structure received from server");
     }
 
     if (!data[0]?.menus) {
-      console.error('No menus found in response:', data[0]);
-      throw new Error('No menus found in response');
+      console.error("No menus found in response:", data[0]);
+      throw new Error("No menus found in response");
     }
     return data[0].menus;
   } catch (error) {
     console.error("getNavLinkMenu error:", error);
     // throw error;
   }
-}
+};
 
 export const getsubCategory = async (subcategory) => {
   try {
@@ -56,7 +56,6 @@ export const getsubCategory = async (subcategory) => {
           // "Authorization":"",
         },
         cache: "no-cache",
-
       }
     );
 
@@ -69,16 +68,13 @@ export const getsubCategory = async (subcategory) => {
 
     const data = await response.json();
     return data?.docs[0];
-
-
-  }catch (error) {
+  } catch (error) {
     console.error("getsubCategory error:", error);
     // throw error;
   }
-}
+};
 
 export const getSubCategoryProductdata = async (subcategory) => {
- 
   try {
     const response = await fetch(
       `${process.env.NEXT_PUBLIC_API_URL}/api/Products/?where[Subcategory.subcategoryslug][equals]=${subcategory}&depth=2&draft=false&locale=undefined`,
@@ -89,7 +85,6 @@ export const getSubCategoryProductdata = async (subcategory) => {
           // "Authorization":"",
         },
         cache: "no-cache",
-
       }
     );
 
@@ -107,7 +102,7 @@ export const getSubCategoryProductdata = async (subcategory) => {
     console.error("getProductdata error:", error);
     // throw error;
   }
-}
+};
 
 export const getProductData = async (product) => {
   try {
@@ -120,7 +115,6 @@ export const getProductData = async (product) => {
           // "Authorization":"",
         },
         cache: "no-cache",
-        
       }
     );
 
@@ -138,7 +132,7 @@ export const getProductData = async (product) => {
     console.error("getProductdata error:", error);
     // throw error;
   }
-}
+};
 
 export const getHandlesData = async () => {
   try {
@@ -151,7 +145,6 @@ export const getHandlesData = async () => {
           // "Authorization":"",
         },
         cache: "no-cache",
-        
       }
     );
 
@@ -169,7 +162,7 @@ export const getHandlesData = async () => {
     console.error("getHnadlesData error:", error);
     // throw error;
   }
-}
+};
 
 export const getBrandsData = async () => {
   try {
@@ -182,7 +175,6 @@ export const getBrandsData = async () => {
           // "Authorization":"",
         },
         cache: "no-cache",
-        
       }
     );
 
@@ -195,12 +187,12 @@ export const getBrandsData = async () => {
 
     // Try to parse the response and log it if there's an error
     const data = await response.json();
-    return data?.docs;  
+    return data?.docs;
   } catch (error) {
     console.error("getBrandsData error:", error);
     // throw error;
   }
-}
+};
 
 export const getCatalogueData = async () => {
   try {
@@ -213,12 +205,11 @@ export const getCatalogueData = async () => {
           // "Authorization":"",
         },
         cache: "no-cache",
-        
       }
     );
 
     if (!response.ok) {
-      console.error("response is not ok",response)
+      console.error("response is not ok", response);
       return [];
     }
 
@@ -229,12 +220,12 @@ export const getCatalogueData = async () => {
     console.error("getCatalogueData error:", error);
     // throw error;
   }
-}
+};
 
-export const otherCategoriesData = async (subcategory) => {
+export const otherCategoriesData = async (subcategory = "") => {
   try {
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/subcategory/?select[title]=true&select[subcategoryslug]=true&select[fullslug]=true&select[categoryslug]=true&where[subcategoryslug][not_equals]=${subcategory}&depth=2&draft=false&locale=undefined `,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/subcategory/?select[title]=true&select[subcategoryslug]=true&select[fullslug]=true&select[categoryslug]=true&where[subcategoryslug][not_equals]=${subcategory}&depth=2&draft=false&locale=undefined`,
       {
         method: "GET",
         headers: {
@@ -242,7 +233,6 @@ export const otherCategoriesData = async (subcategory) => {
           // "Authorization":"",
         },
         cache: "no-cache",
-        
       }
     );
 
@@ -253,11 +243,52 @@ export const otherCategoriesData = async (subcategory) => {
       // throw new Error(`HTTP error! status: ${response.status}`);
     }
 
-    // Try to parse the response and log it if there's an error 
+    // Try to parse the response and log it if there's an error
     const data = await response.json();
     return data?.docs;
   } catch (error) {
     console.error("otherCategoriesData error:", error);
     // throw error;
   }
-}
+};
+
+export const getBespokeData = async () => {
+  try {
+    const response = await fetch(
+      `https://musing-nobel.97-74-95-14.plesk.page//api/bespoke/1?depth=1&draft=false&locale=undefined`
+    );
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("getBespokeData error:", error);
+    // throw error;
+  }
+};
+
+export const getHoldProductData = async () => {
+  try {
+    const response =
+      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Products/?select[title]=true&select[image]=true&select[completeurl]=true&where[brand.brandslug][equals]=hold&depth=2&draft=false&locale=undefined`);
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data.docs;
+  } catch (error) {
+    console.error("getHoldProductData error:", error);
+    // throw error;
+  }
+};
+
+export const getHoldData = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brands/1?depth=1&draft=false&locale=undefined`
+    );
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error("getHoldData error:", error);
+    retrun ;
+  }
+};
