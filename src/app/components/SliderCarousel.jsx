@@ -1,8 +1,6 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
-
 function CustomButton({ direction, onClick }) {
   return (
     <button
@@ -34,7 +32,7 @@ function CustomButton({ direction, onClick }) {
 }
 
 
-export default function Carousel({Handles,handlesData}) {
+export default function Carousel({Handles,handlesData,isBrand = false}) {
   if(!handlesData || !handlesData.length) return null
   const [slides, setSlides] = useState([]);
   const [transitioning, setTransitioning] = useState(false);
@@ -136,15 +134,17 @@ export default function Carousel({Handles,handlesData}) {
                   className="bg-white rounded-lg shadow-lg p-2 transition-all duration-300"
                   style={{ boxShadow: "rgba(0, 0, 0, 0.35) 0px 5px 15px" }}
                 >
-                  <div className="relative">
+                  <a 
+                  href={isBrand ? handle?.completebrandslug || "#" : handle?.completeurl || "#"}
+                    className="relative flex justify-center items-center ">
                     <img
                       src={`${process.env.NEXT_PUBLIC_API_URL}${handle?.image?.url}` || "/logo.png"}
                       alt={handle?.image?.alt || `handle ${index}`}
                       width={240}
                       height={240}
-                      className="object-contain  aspect-square"
+                      className="object-fill w-full h-56"
                     />
-                  </div>
+                  </a>
                 </div>
               </div>
             ))}
