@@ -3,13 +3,16 @@ import Footer from "@/app/components/Footer";
 import Header from "@/app/components/Header";
 import { getNavLinkMenu, getsubCategory, getSubCategoryProductdata, otherCategoriesData } from "@/app/service/apiService";
 
-export default async function Page({ params }) {
+export default async function Page({ params, searchParams }) {
   try {
     // Validate params
     if (!params || typeof params !== "object") {
       console.error("Invalid params:", params);
       return <div>Error: Invalid page parameters.</div>;
     }
+
+    const { finish, brand: filterBrand } = await searchParams;
+
 
     const { category, subcategory } = await params;
     if (!category || !subcategory) {
@@ -27,7 +30,7 @@ export default async function Page({ params }) {
         console.error("Failed to fetch subcategory data:", error);
         return null; // Return null on failure
       }),
-      getSubCategoryProductdata(subcategory).catch((error) => {
+      getSubCategoryProductdata(subcategory, filterBrand, finish).catch((error) => {
         console.error("Failed to fetch product data:", error);
         return null; // Return null on failure
       }),
@@ -60,7 +63,7 @@ export default async function Page({ params }) {
 
 
     return (
-      <div>
+      <div className="flex flex-col min-h-screen gap-y-5">
         <Header navItems={navItems} />
         <CategoryPage
           productData={productData}

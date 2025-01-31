@@ -74,10 +74,28 @@ export const getsubCategory = async (subcategory) => {
   }
 };
 
-export const getSubCategoryProductdata = async (subcategory) => {
+export const getSubCategoryProductdata = async (subcategory, filterBrand, finish) => {
   try {
+    
+    const params = new URLSearchParams({
+      [`where[Subcategory.subcategoryslug][equals]`]: subcategory,
+      'depth': '2',
+      'draft': 'false',
+      'locale': 'undefined',
+      'limit': '8'
+    });
+  
+    // Only add brand filter if it exists
+    if (filterBrand) {
+      params.append(`where[brand.brandslug][equals]`, filterBrand);
+    }
+  
+    // Only add finish filter if it exists
+    if (finish) {
+      params.append(`where[Finishes.finishslug][equals]`, finish);
+    }
     const response = await fetch(
-      `${process.env.NEXT_PUBLIC_API_URL}/api/Products/?where[Subcategory.subcategoryslug][equals]=${subcategory}&depth=2&draft=false&locale=undefined`,
+      `${process.env.NEXT_PUBLIC_API_URL}/api/Products/?${params.toString()}`,
       {
         method: "GET",
         headers: {
@@ -94,7 +112,6 @@ export const getSubCategoryProductdata = async (subcategory) => {
       // throw new Error(`HTTP error! status: ${response.status}`);
       return;
     }
-
     // Try to parse the response and log it if there's an error
     const data = await response.json();
     return data.docs;
@@ -266,16 +283,47 @@ export const getBespokeData = async () => {
   }
 };
 
-export const getHoldProductData = async () => {
+
+// export const getBrandProductData = async (brand="", finish="") => {
+
+//   try {
+//     const response =
+//       await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Products/?select[title]=true&select[image]=true&select[completeurl]=true&where[brand.brandslug][equals]=${brand}&depth=2&draft=false&locale=undefined&limit=12`);
+//     if (!response.ok) return [];
+//     const data = await response.json();
+//     return data.docs;
+//   } catch (error) {
+//     console.error("getHoldProductData error:", error);
+//     // throw error;
+//   }
+// };
+
+export const getBrandProductData = async (brand = "", finish = "") => {
   try {
-    const response =
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/Products/?select[title]=true&select[image]=true&select[completeurl]=true&where[brand.brandslug][equals]=hold&depth=2&draft=false&locale=undefined`);
+    const url = new URL(`${process.env.NEXT_PUBLIC_API_URL}/api/Products/`);
+    const params = new URLSearchParams({
+      'select[title]': 'true',
+      'select[image]': 'true',
+      'select[completeurl]': 'true',
+      'depth': '2',
+      'draft': 'false',
+      'locale': 'undefined',
+      'limit': '12',
+      'where[brand.brandslug][equals]': brand
+    });
+
+    if (finish) {
+      params.append('where[Finishes.finishslug][equals]', finish);
+    }
+    url.search = params.toString();
+
+    const response = await fetch(url);
     if (!response.ok) return [];
     const data = await response.json();
     return data.docs;
   } catch (error) {
-    console.error("getHoldProductData error:", error);
-    // throw error;
+    console.error("getBrandProductData error:", error);
+    return [];
   }
 };
 
@@ -292,3 +340,65 @@ export const getHoldData = async () => {
     retrun ;
   }
 };
+
+export const getBrandPageData = async (brand = "") => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/brands?where[brandslug][equals]=${brand}`
+    );
+    if (!response.ok) return [];  
+    const data = await response.json();
+    return data?.docs[0];
+  }
+  catch (error) {
+    console.error("getBrandPageData error:", error);
+    return;
+  }
+}
+
+export const getBrandFinshes = async (brand = "") => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/Products/BrandFinishes/${brand}/Finishes`
+    );    
+    if (!response.ok) return [];  
+    const data = await response.json();
+    return data;
+  }
+  catch (error) {
+    console.error("getBrandPageData error:", error);
+    return; 
+
+  }
+}
+
+
+export const getBrandCategoryData = async (brand = "") => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/Products/brandsubcategories/${brand}/subcategories`
+    );    
+    if (!response.ok) return [];  
+    const data = await response.json();
+    return data;
+  }
+  catch (error) {
+    console.error("getBrandPageData error:", error);
+    return; 
+
+  }
+}
+
+export const getHomeBannerData = async () => {
+  try {
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/home?depth=2`
+    );
+    if (!response.ok) return [];
+    const data = await response.json();
+    return data?.docs;
+  } catch (error) { 
+    console.error("getHomeBannerData error:", error);
+    return [];
+  }
+}
