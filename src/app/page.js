@@ -18,7 +18,7 @@ export default async function Home() {
   const Brands = "Brands";
   return (
     // <div className="flex flex-col items-center justify-center min-h-screen py-2 gap-10">
-    <div>
+    <div> 
       <UnderConstruction/>
       {/* <Header navItems={navItems}/>
       <ProductSlider homeBannerData={homeBannerData}/>
