@@ -179,7 +179,7 @@ const HomeBanner = ({ homeBannerData = [] }) => {
       <Slider {...settings} className="max-w-6xl mx-auto">
         {homeBannerData?.map((data, index) => (
           <div key={index} className="outline-none p-2">
-            <div className="gap-4 justify-center items-center p-4 bg-[#F5FAFA] grid grid-cols-1 md:grid-cols-2 min-h-[500px]">
+            <div className="gap-4 justify-center items-center p-4 bg-[#F5FAFA] grid grid-cols-1 md:grid-cols-2 min-h-[400px]">
               {/* Text Content - Consistent Width */}
               <div className="flex flex-col justify-center items-center h-full px-5">
                 <div>
@@ -192,7 +192,7 @@ const HomeBanner = ({ homeBannerData = [] }) => {
                       className="object-contain"
                     />
                   </div>
-                  <div className="banner-text inline-flex font-light text-[#545454] md:text-xs">
+                  <div className="banner-text inline-flex font-light text-[#545454] ">
                     <PayloadLexicalReactRenderer content={data?.description} />
                   </div>
                 </div>

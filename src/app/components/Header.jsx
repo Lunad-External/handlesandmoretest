@@ -111,7 +111,7 @@ const Header = ({ navItems }) => {
           <div className="flex justify-between items-center w-full">
             {!isSearchOpen && (
               <div className="flex-shrink-0">
-                <a href="/" className="flex items-center gap-x-2 lg:gap-x-10">
+                <a href="/" className="flex items-center gap-x-4">
                   <img src="/handmlogo.png" alt="logo" width={80} height={80} className="w-10 h-10 lg:w-20 lg:h-20" />
                   <span className={`${ubuntu.className} text-[#008080] text-lg lg:text-2xl font-bold`}>
                     HANDLES & MORE
