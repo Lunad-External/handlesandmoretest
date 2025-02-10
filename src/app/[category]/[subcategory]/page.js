@@ -39,7 +39,6 @@ export default async function Page({ params, searchParams }) {
         return null; // Return null on failure
       })
     ]);
-
     // Validate API responses
     if (!navItems) {
       // return <div>Error: Failed to load navigation data.</div>;
@@ -58,8 +57,8 @@ export default async function Page({ params, searchParams }) {
     }
 
     // Extract subcategory details
-    const { Finishes, brand,title } = subcategorData?.Category || {};
-    const { bannerimage } = subcategorData || {};
+    const { Finishes, brand } = subcategorData?.Category || {};
+    const { bannerimage, title } = subcategorData || {};
 
 
     return (

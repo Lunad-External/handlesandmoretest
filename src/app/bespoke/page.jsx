@@ -58,8 +58,8 @@ export default async function Page() {
             />
           </div>
         </div>
-        <div className="text-center mb-4 p-2">
-          <p className="text-[#008080] font-bold text-2xl leading-relaxed tracking-wider">
+        <div className="text-center mb-4 p-4">
+          <p className="text-[#008080] font-bold text-xl leading-relaxed tracking-wider text-start">
             {getPlainText(data?.imgdescription?.root)}
           </p>
         </div>
@@ -85,8 +85,8 @@ export default async function Page() {
           />
         </div>
 
-        <div className="text-center mb-4 p-2">
-          <p className="text-[#008080] font-bold text-2xl leading-relaxed tracking-wider">
+        <div className="text-center mb-4 p-4">
+          <p className="text-[#008080] font-bold text-xl leading-relaxed tracking-wider text-start">
             {getPlainText(data?.description?.root)}
           </p>
         </div>
