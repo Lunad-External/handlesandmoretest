@@ -82,7 +82,7 @@ const images = [
   { id: 4, imageUrl: "/image4.png", alt: "Image 4" }, // Column 8-9 (full row)
   { id: 5, imageUrl: "/image5.png", alt: "Image 5" }, // Column 10-12 (row 1-3)
   { id: 6, imageUrl: "/image6.png", alt: "Image 6" }, // Column 10-12 (row 4-6)
-];
+]
 
 // const GridLayout = () => {
 //   if (!images?.length || images.length < 6) {
